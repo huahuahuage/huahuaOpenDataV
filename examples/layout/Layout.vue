@@ -1,25 +1,8 @@
 <template>
   <n-layout class="layout" :position="fixedMenu" has-sider>
-    <n-layout-sider
-      show-trigger="bar"
-      :position="fixedMenu"
-      :collapsed="collapsed"
-      collapse-mode="width"
-      :collapsed-width="64"
-      :width="leftMenuWidth"
-      :native-scrollbar="false"
-      :inverted="inverted"
-      class="layout-sider"
-      @collapse="collapsed = true"
-      @expand="collapsed = false"
-    >
-      <Logo :collapsed="collapsed" />
-      <AsideMenu v-model:collapsed="collapsed" />
-    </n-layout-sider>
-
     <n-layout :inverted="inverted">
       <n-layout-header :inverted="getHeaderInverted" :position="fixedHeader">
-        <PageHeader v-model:collapsed="collapsed" />
+        <PageHeader />
       </n-layout-header>
 
       <n-layout-content
@@ -43,25 +26,16 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  NBackTop,
-  NLayout,
-  NLayoutContent,
-  NLayoutHeader,
-  NLayoutSider,
-  useLoadingBar
-} from 'naive-ui'
-import { computed, onMounted, ref, unref } from 'vue'
+import { NBackTop, NLayout, NLayoutContent, NLayoutHeader, useLoadingBar } from 'naive-ui'
+import { computed, onMounted, unref } from 'vue'
 
 import { useProjectSettingStoreWithOut } from '@/store/modules/projectSetting'
 
 import { PageHeader } from './components/Header'
-import { Logo } from './components/Logo'
 import { MainView } from './components/Main'
-import { AsideMenu } from './components/Menu'
+// import { AsideMenu } from './components/Menu'
 
 const projectStore = useProjectSettingStoreWithOut()
-const collapsed = ref<boolean>(false)
 
 const darkTheme = computed<boolean>(() => projectStore.darkTheme)
 const fixedHeader = computed(() => {
@@ -82,19 +56,7 @@ const getHeaderInverted = computed(() => {
   const navTheme = unref(projectStore.navTheme)
   return ['light', 'header-dark'].includes(navTheme) ? unref(inverted) : !unref(inverted)
 })
-
-const leftMenuWidth = computed(() => {
-  const { minMenuWidth, menuWidth } = unref(projectStore.menuSetting)
-  return collapsed.value ? minMenuWidth : menuWidth
-})
-
-const watchWidth = () => {
-  const Width = document.body.clientWidth
-  collapsed.value = Width <= 950
-}
-
 onMounted(() => {
-  window.addEventListener('resize', watchWidth)
   //挂载在 window 方便与在js中使用
   const loading = useLoadingBar()
   loading.finish()

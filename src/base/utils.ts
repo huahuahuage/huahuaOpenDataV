@@ -22,7 +22,7 @@ export const getObjProp = (
   if (chidObj && chidObj.children && start < propKeys.length) {
     return getObjProp(chidObj.children, propKeys, start + 1)
   }
-  return chidObj
+  return chidObj as MetaForm | MetaContainerItem
 }
 
 /**

@@ -38,7 +38,7 @@ const setShowEm = () => {
 }
 
 const exportCanvas = (id: string) => {
-  const name: string = `${canvasState.name}` || 'OpenDataV'
+  const name: string = `${canvasState.name}` || 'HuahuaOpenDataV'
   exportRaw(
     `${name}.json`,
     JSON.stringify({

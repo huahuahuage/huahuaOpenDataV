@@ -1,7 +1,10 @@
 <template>
   <div class="logo">
-    <img :src="Logo" alt="" :class="{ 'mr-2': !collapsed }" />
-    <h2 v-show="!collapsed" class="title">{{ title }}</h2>
+    <img :src="Logo" alt="" class="mr-2" />
+    <div>
+      <h2 class="title">{{ title }}</h2>
+      <div class="sub-title">Power by OpenDataV</div>
+    </div>
   </div>
 </template>
 
@@ -9,10 +12,6 @@
 import { ref } from 'vue'
 
 import Logo from '@/assets/logo.png'
-
-defineProps<{
-  collapsed: boolean
-}>()
 
 const title = ref<string>(import.meta.env.VITE_APP_TITLE)
 </script>
@@ -30,6 +29,14 @@ const title = ref<string>(import.meta.env.VITE_APP_TITLE)
 
   .title {
     @apply mb-0;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+  }
+
+  .sub-title {
+    font-size: 12px;
   }
 }
 </style>

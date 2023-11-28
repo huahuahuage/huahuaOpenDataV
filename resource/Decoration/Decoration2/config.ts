@@ -41,7 +41,7 @@ class DecorationComponent extends CustomComponent {
           label: '文本',
           type: FormType.TEXT,
           props: {
-            defaultValue: 'OpenDataV'
+            defaultValue: '编辑文本'
           }
         }
       ]

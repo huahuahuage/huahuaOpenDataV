@@ -1,5 +1,6 @@
 <template>
   <div v-if="iscollapsed">
+    <!-- 选中组件时的右侧面板 -->
     <o-tabs
       v-if="curComponent"
       v-model:value="activeKey"
@@ -31,7 +32,7 @@
           <AttrList :curComponent="curComponent" />
         </div>
       </o-tab-pane>
-      <o-tab-pane name="data">
+      <!-- <o-tab-pane name="data">
         <template #label>
           <div class="flex-nowrap flex flex-row items-center">
             <x-icon name="data" class="inline-block" />
@@ -41,8 +42,9 @@
         <div class="attr-list o-scroll">
           <DataList :curComponent="curComponent" />
         </div>
-      </o-tab-pane>
+      </o-tab-pane> -->
     </o-tabs>
+    <!-- 未选中 -->
     <o-tabs
       v-else
       v-model:value="canvasActiveKey"
@@ -63,7 +65,7 @@
           <Canvas />
         </div>
       </o-tab-pane>
-      <o-tab-pane name="data">
+      <!-- <o-tab-pane name="data">
         <template #label>
           <div class="flex-nowrap flex flex-row items-center">
             <x-icon name="data" />
@@ -73,7 +75,7 @@
         <div class="attr-list">
           <GlobalData />
         </div>
-      </o-tab-pane>
+      </o-tab-pane> -->
     </o-tabs>
   </div>
   <div v-else>
@@ -96,8 +98,8 @@ import { computed, getCurrentInstance, h, ref } from 'vue'
 
 import AttrList from './AttrModule'
 import Canvas from './CanvasModules/Canvas.vue'
-import GlobalData from './CanvasModules/GlobalData'
-import DataList from './DataModule'
+// import GlobalData from './CanvasModules/GlobalData'
+// import DataList from './DataModule'
 import StyleList from './StyleModule'
 // 右侧属性列表
 const instance = getCurrentInstance()
@@ -140,16 +142,16 @@ const menuOptions = computed(() => {
             name: 'attr',
             onClick: () => collapsedTabPane('attr')
           })
-      },
-      {
-        label: '数据',
-        key: '3',
-        icon: () =>
-          h(XIcon, {
-            name: 'data',
-            onClick: () => collapsedTabPane('data')
-          })
       }
+      // {
+      //   label: '数据',
+      //   key: '3',
+      //   icon: () =>
+      //     h(XIcon, {
+      //       name: 'data',
+      //       onClick: () => collapsedTabPane('data')
+      //     })
+      // }
     ]
   } else {
     return [
@@ -161,16 +163,16 @@ const menuOptions = computed(() => {
             name: 'canvas',
             onClick: () => collapsedTabPane('canvas')
           })
-      },
-      {
-        label: '数据',
-        key: '2',
-        icon: () =>
-          h(XIcon, {
-            name: 'data',
-            onClick: () => collapsedTabPane('data')
-          })
       }
+      // {
+      //   label: '数据',
+      //   key: '2',
+      //   icon: () =>
+      //     h(XIcon, {
+      //       name: 'data',
+      //       onClick: () => collapsedTabPane('data')
+      //     })
+      // }
     ]
   }
 })

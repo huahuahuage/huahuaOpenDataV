@@ -1,8 +1,8 @@
-import { exportCanvas, importCanvas, recoveryDraft, setShowEm, undo } from 'open-data-v/designer'
+// import { exportCanvas, importCanvas } from 'open-data-v/designer'
+import { recoveryDraft, setShowEm, undo } from 'open-data-v/designer'
 import { h } from 'vue'
 import type { RouteLocationNormalizedLoaded, Router } from 'vue-router'
 
-import LogoView from '@/components/LogoView'
 import type { ToolBarItemType } from '@/components/ToolBar'
 import { useProjectSettingStoreWithOut } from '@/store/modules/projectSetting'
 
@@ -35,10 +35,7 @@ export default function useToolBars(
           name: 'Pages'
         })
       },
-      icon: () =>
-        h(LogoView, {
-          width: '40px'
-        }),
+      icon: 'home',
       divider: true
     },
     {
@@ -64,26 +61,26 @@ export default function useToolBars(
       action: recoveryDraft,
       icon: 'next'
     },
-    {
-      label: '导出',
-      action: () => exportCanvas((route.params.index as string) || ''),
-      icon: 'download'
-    },
-    {
-      label: '导入',
-      action: importCanvas,
-      icon: 'upload'
-    },
-    {
-      label: '全屏',
-      action: () => {
-        const el: HTMLElement | null = document.querySelector('#editor')
-        if (document.fullscreenEnabled && el) {
-          el.requestFullscreen()
-        }
-      },
-      icon: 'fullScreen'
-    },
+    // {
+    //   label: '导出',
+    //   action: () => exportCanvas((route.params.index as string) || ''),
+    //   icon: 'download'
+    // },
+    // {
+    //   label: '导入',
+    //   action: importCanvas,
+    //   icon: 'upload'
+    // },
+    // {
+    //   label: '全屏',
+    //   action: () => {
+    //     const el: HTMLElement | null = document.querySelector('#editor')
+    //     if (document.fullscreenEnabled && el) {
+    //       el.requestFullscreen()
+    //     }
+    //   },
+    //   icon: 'fullScreen'
+    // },
     {
       label: '坐标',
       action: setShowEm,
@@ -100,14 +97,14 @@ export default function useToolBars(
       action: toggleTheme,
       icon: () => h(ThemeIcon),
       location: 'right'
-    },
-    {
-      label: 'GitHub',
-      action: () => {
-        window.open('https://github.com/AnsGoo/openDataV', '_blank')
-      },
-      icon: 'github',
-      location: 'right'
     }
+    // {
+    //   label: 'GitHub',
+    //   action: () => {
+    //     window.open('https://github.com/AnsGoo/openDataV', '_blank')
+    //   },
+    //   icon: 'github',
+    //   location: 'right'
+    // }
   ]
 }

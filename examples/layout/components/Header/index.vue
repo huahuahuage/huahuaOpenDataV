@@ -2,13 +2,7 @@
   <div class="layout-header">
     <!--左侧菜单-->
     <div class="layout-header-left">
-      <!-- 菜单收起 -->
-      <div
-        class="ml-1 layout-header-trigger layout-header-trigger-min"
-        @click="() => emits('update:collapsed', !collapsed)"
-      >
-        <x-icon :name="!collapsed ? 'expandLeft' : 'expandRight'" :color="iconColor" />
-      </div>
+      <Logo style="margin-right: 10px" />
       <!-- 刷新 -->
       <div
         v-if="projectStore.headerSetting.isReload"
@@ -38,43 +32,12 @@
       </n-breadcrumb>
     </div>
     <div class="layout-header-right">
-      <!--切换全屏-->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-tooltip placement="bottom">
-          <template #trigger>
-            <x-icon :name="fullscreenIcon" :color="iconColor" @click="toggleFullScreen" />
-          </template>
-          <span>全屏</span>
-        </n-tooltip>
-      </div>
-
       <div class="layout-header-trigger layout-header-trigger-min">
         <n-tooltip placement="bottom">
           <template #trigger>
             <x-icon :name="themeIcon" :color="iconColor" @click="toggleTheme" />
           </template>
           <span>主题</span>
-        </n-tooltip>
-      </div>
-      <!-- 个人中心 -->
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
-          <div class="avatar">
-            <n-avatar round>
-              {{ username }}
-              <template #icon>
-                <x-icon name="user" :color="iconColor" />
-              </template>
-            </n-avatar>
-          </div>
-        </n-dropdown>
-      </div>
-      <div class="layout-header-trigger layout-header-trigger-min">
-        <n-tooltip placement="bottom">
-          <template #trigger>
-            <x-icon name="github" :color="iconColor" @click="toGithub" />
-          </template>
-          <span>Github</span>
         </n-tooltip>
       </div>
       <!--设置-->
@@ -93,35 +56,22 @@
 </template>
 
 <script lang="ts" setup>
-import { NAvatar, NBreadcrumb, NBreadcrumbItem, NDropdown, NTooltip } from 'naive-ui'
+import { NBreadcrumb, NBreadcrumbItem, NDropdown, NTooltip } from 'naive-ui'
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { useRedo } from '@/pages/redirect/useRedo'
 import { useProjectSettingStoreWithOut } from '@/store/modules/projectSetting'
-import { useUserStoreWithOut } from '@/store/modules/user'
-import { dialog, message } from '@/utils/message'
 
+import { Logo } from '../Logo'
 import ProjectSetting from './setting.vue'
 
 const router = useRouter()
 const route = useRoute()
 
-defineProps<{
-  collapsed: boolean
-}>()
-
-const emits = defineEmits<{
-  (e: 'update:collapsed', collapsed: boolean)
-}>()
-
-const userStore = useUserStoreWithOut()
 const projectStore = useProjectSettingStoreWithOut()
 
-const username = userStore?.userName || ''
-
 const drawerSetting = ref()
-const fullscreenIcon = ref<string>('fullScreen')
 const themeIcon = ref<string>('sun')
 
 const iconColor = computed<string>(() => projectStore.iconColor)
@@ -157,81 +107,11 @@ const reloadPage = async () => {
   await redo()
 }
 
-// 退出登录
-const doLogout = () => {
-  dialog.info({
-    title: '提示',
-    content: '您确定要退出登录吗',
-    positiveText: '确定',
-    negativeText: '取消',
-    onPositiveClick: () => {
-      userStore.logout().then(async () => {
-        message.success('成功退出登录')
-        await router
-          .replace({
-            name: 'Login',
-            query: {
-              redirect: route.fullPath
-            }
-          })
-          .finally(() => location.reload())
-      })
-    },
-    onNegativeClick: () => {}
-  })
-}
-
-// 切换全屏图标
-const toggleFullscreenIcon = () => {
-  fullscreenIcon.value = document.fullscreenElement ? 'off-screen-one' : 'full-screen-one'
-}
-
-const toGithub = () => {
-  window.open('https://github.com/AnsGoo/openDataV', '_blank')
-}
-
 // 切换主题
 const toggleTheme = () => {
   projectStore.setNavTheme(!projectStore.darkTheme ? 'light' : 'dark')
   projectStore.setDarkTheme(!projectStore.darkTheme)
   themeIcon.value = projectStore.darkTheme ? 'sun' : 'moon'
-}
-
-// 监听全屏切换事件
-document.addEventListener('fullscreenchange', toggleFullscreenIcon)
-
-// 全屏切换
-const toggleFullScreen = () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen()
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen()
-    }
-  }
-}
-
-const avatarOptions = [
-  {
-    label: '个人设置',
-    key: 1
-  },
-  {
-    label: '退出登录',
-    key: 2
-  }
-]
-
-//头像下拉菜单
-const avatarSelect = async (key) => {
-  switch (key) {
-    case 1:
-      await router.push({ name: 'Setting' })
-      break
-    case 2:
-      doLogout()
-      break
-  }
 }
 
 function openSetting() {

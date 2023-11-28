@@ -166,6 +166,7 @@ const previewIcon = (icon: string | undefined) => {
 
   .card {
     @apply p-2 w-60;
+    padding-left: 0;
     transition: all 0.3s ease;
     transform-origin: center;
   }

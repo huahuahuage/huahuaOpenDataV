@@ -48,7 +48,7 @@ const basicRoutes = [
     name: 'Create',
     component: () => import('@/pages/DesignerView/View.vue'),
     meta: {
-      title: '创建页面',
+      title: '创建数据插件',
       permission: 'CreatePage',
       hideInMenu: true
     }
@@ -78,16 +78,17 @@ const basicRoutes = [
     name: 'PageLayout',
     component: Layout,
     meta: {
-      title: '布局界面',
+      title: '首页',
       icon: 'template'
     },
+    // component: () => import('@/pages/Pages.vue'),
     children: [
       {
         path: '/pages',
         name: 'Pages',
         component: () => import('@/pages/Pages.vue'),
         meta: {
-          title: '页面管理',
+          title: '插件管理',
           icon: 'page'
         }
       }

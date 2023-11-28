@@ -38,7 +38,7 @@ class StaticTextComponent extends CustomComponent {
           label: '自定义文本',
           type: FormType.TEXT,
           props: {
-            defaultValue: 'OpenDataV'
+            defaultValue: '自定义文本'
           }
         }
       ]
