@@ -30,12 +30,13 @@
     .tabs-item {
       line-height: 40px;
       z-index: 2;
+      margin: 0 10px;
       &:after {
       @apply transition-all duration-300;
       }
       /*选中*/
       &.active {
-        border-bottom-width: 2px;
+        border-bottom-width: 3px;
         border-bottom-color: @primaryColor;
         color: @primaryColor;
         &:after {

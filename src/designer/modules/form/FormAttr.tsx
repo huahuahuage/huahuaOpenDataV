@@ -170,6 +170,7 @@ export default defineComponent({
         case FormType.COLOR:
           return (
             <OColorPicker
+              style={'margin-top:10px'}
               v-model:value={modelValue[item.prop]}
               swatches={GlobalColorSwatches}
               modes={['hex', 'rgb', 'hsl']}

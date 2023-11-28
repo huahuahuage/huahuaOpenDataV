@@ -3,7 +3,7 @@
     <img :src="Logo" alt="" class="mr-2" />
     <div>
       <h2 class="title">{{ title }}</h2>
-      <div class="sub-title">Power by OpenDataV</div>
+      <div class="sub-title">Base on OpenDataV</div>
     </div>
   </div>
 </template>

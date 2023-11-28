@@ -1,41 +1,15 @@
 <template>
   <div class="main h-fit flex-col flex flex-nowrap">
-    <div class="top w-full h-14 align-middle" style="padding: 0 10px">
+    <div class="top w-full h-14 align-middle">
       <ToolBar :toolbars="toolbars" />
     </div>
     <div class="content flex flex-nowrap flex-row">
       <div class="left o-scroll">
-        <Toggle
-          :direction="leftDreiction"
-          :x="leftWidth"
-          location="left"
-          @click="collapsedLeft = !collapsedLeft"
-        />
-        <LeftSideBar
-          :iscollapsed="collapsedLeft"
-          @update:iscollapsed="
-            (value) => {
-              collapsedLeft = value
-            }
-          "
-        />
+        <LeftSideBar />
       </div>
       <Canvas class="canvas border border-gray-500" />
       <div class="right o-scroll">
-        <Toggle
-          :x="rightWidth"
-          location="right"
-          :direction="rightDreiction"
-          @click="collapsedRight = !collapsedRight"
-        />
-        <RightSideBar
-          v-model:iscollapsed="collapsedRight"
-          @update:iscollapsed="
-            (value) => {
-              collapsedRight = value
-            }
-          "
-        />
+        <RightSideBar :iscollapsed="true" />
       </div>
     </div>
   </div>
@@ -44,14 +18,13 @@
 import { useData, useProp } from 'open-data-v/base'
 import type { ToolBarItemType } from 'open-data-v/designer'
 import { useCanvasState } from 'open-data-v/designer'
-import { computed, onUnmounted, provide, readonly, ref } from 'vue'
+import { onUnmounted, provide, readonly } from 'vue'
 
 import type { LayoutData } from '../../../designer/state/type'
 import LeftSideBar from '../../Pane/LeftSideBar'
 import RightSideBar from '../../Pane/RightSideBar'
 import ToolBar from '../../Pane/Toolsbar'
 import Canvas from './Canvas.vue'
-import Toggle from './Toggle.vue'
 
 withDefaults(
   defineProps<{
@@ -63,8 +36,6 @@ withDefaults(
 )
 const canvasState = useCanvasState()
 
-const collapsedLeft = ref(true)
-const collapsedRight = ref(true)
 provide('HOOKS', readonly({ useProp, useData }))
 const setLayoutData = (data: LayoutData) => {
   canvasState.setLayoutData(data)
@@ -74,36 +45,38 @@ defineExpose({ setLayoutData })
 onUnmounted(() => {
   canvasState.clearCanvas()
 })
-const leftWidth = computed<string>(() => (collapsedLeft.value ? '18rem' : '4rem'))
-const leftDreiction = computed<'left' | 'right'>(() => (collapsedLeft.value ? 'left' : 'right'))
-
-const rightWidth = computed<string>(() => (collapsedRight.value ? '18rem' : '4rem'))
-const rightDreiction = computed<'left' | 'right'>(() => (collapsedRight.value ? 'right' : 'left'))
-
-const canvasWidth = computed<string>(() => `calc(100vw - ${leftWidth.value} - ${rightWidth.value})`)
 </script>
 <style scoped lang="less">
 @import 'open-data-v/css/index.less';
 .main {
+  .top {
+    padding: 0 10px;
+    border-bottom: 0.5px solid #e5e7eb;
+  }
   .content {
     width: 100vw;
-    height: calc(100vh - 103px);
+    height: calc(100vh - 56px);
     .canvas {
       transition-property: width;
       transition-duration: 0.5s;
-      width: v-bind(canvasWidth);
+      width: calc(100vw - 540px);
+      height: calc(100vh - 103px);
     }
     .left {
       transition-property: width;
       transition-duration: 0.5s;
-      width: v-bind(leftWidth);
+      width: 240px;
+      padding-top: 10px;
+      // border: 1px solid #e5e7eb;
       overflow: hidden;
     }
     .right {
       transition-property: width;
       transition-duration: 0.5s;
-      width: v-bind(rightWidth);
+      width: 300px;
       height: 100%;
+      padding-top: 10px;
+      // border: 1px solid #e5e7eb;
       overflow: hidden;
     }
   }

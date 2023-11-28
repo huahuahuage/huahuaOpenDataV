@@ -50,6 +50,9 @@ export default defineComponent({
     }
 
     const renderForm = (el: MetaContainerItem) => {
+      console.log(props.flat)
+      console.log(formData.value)
+      console.log(formData.value[el.prop])
       const modeValue = props.flat ? formData.value : formData.value[el.prop]
       const children = (el.children || []) as Array<MetaForm>
       return modeValue ? (
@@ -85,7 +88,7 @@ export default defineComponent({
             <>
               {containerItems.map((el) => {
                 return (
-                  <OCard title={el.label} class="mb-1">
+                  <OCard style={'margin-bottom:10px'} title={el.label} class="mb-1">
                     {renderForm(el)}
                   </OCard>
                 )

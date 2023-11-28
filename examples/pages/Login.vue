@@ -3,7 +3,7 @@
     <div class="left">
       <div class="name">
         <span><img class="logo" src="/favicon.ico" alt="" /></span>
-        <span> 花花数据编辑平台 <span>power by OpenDataV</span></span>
+        <span> 花花插件编辑平台 <span>Base on OpenDataV</span></span>
       </div>
       <img class="home" src="/home.png" alt="" />
       <div class="desc">
